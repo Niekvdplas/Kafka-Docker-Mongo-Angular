@@ -1,26 +1,24 @@
-## Stream Kafka messages to an Angular application through Websocket with Spring Boot
-Demo application that reads data from [Apache Kafka](https://kafka.apache.org/) and send it to an Angular web application.
+## Stream Kafka messages to an Angular application through Websocket with Spring Boot and MongoDB for storage hosted in Docker containers
+Demo application that reads data from [Apache Kafka](https://kafka.apache.org/) and send it to an Angular web application through a websocket connection.
 
-### Set up your Kafka topic
-
-```
-bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 3 --topic messages
-```
-
-### Start the frontend
+### Install Docker compose
 
 ```
-npm install
-
-npm start
+https://www.docker.com/products/docker-desktop/
 ```
 
-Open http://localhost:4200/.
-
-### Start the backend
+### Spin up the containers
 
 ```
-mvn spring-boot:run
+docker-compose up -d
+```
+
+Open http://localhost/.
+
+### Play around
+
+```
+All files will be send to localhost/pdf
 ```
 
 
