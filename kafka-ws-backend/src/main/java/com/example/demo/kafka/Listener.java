@@ -8,9 +8,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
-
-import com.example.demo.Constants;
-import com.example.demo.model.Model;
+import com.example.demo.model.FileModel;
 
 @Component
 public class Listener {
@@ -20,11 +18,12 @@ public class Listener {
 	@Autowired
 	private SimpMessagingTemplate webSocket;
 
-	@KafkaListener(topics = Constants.KAFKA_TOPIC)
-	public void processMessage(ConsumerRecord<String, Model> cr, @Payload Model content) {
-		LOG.info("Received content from Kafka: {}", content);
+	@KafkaListener(topics = {"messages", "pdf"})
+	public void processMessage(ConsumerRecord<String, FileModel> cr, @Payload FileModel content) {
 
-		this.webSocket.convertAndSend(Constants.WEBSOCKET_DESTINATION, content.getMessage());
+		LOG.info("Kafka published: {}", content);
+		//Topic is always PDF because of FileModel.getRawFormat() but you can subscribe to other messages.
+		this.webSocket.convertAndSend("/topic/" + cr.topic(), content);
 	}
 
 }

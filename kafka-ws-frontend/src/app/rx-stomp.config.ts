@@ -2,7 +2,7 @@ import { InjectableRxStompConfig } from '@stomp/ng2-stompjs';
 
 export const myRxStompConfig: InjectableRxStompConfig = {
     // Which server?
-    brokerURL: 'ws://localhost:8080/websocket',
+    brokerURL: 'ws://localhost:9090/websocket',
 
     // Headers
     // Typical keys: login, passcode, host
@@ -25,6 +25,5 @@ export const myRxStompConfig: InjectableRxStompConfig = {
     // It can be quite verbose, not recommended in production
     // Skip this key to stop logging to console
     debug: (msg: string): void => {
-        console.log(new Date(), msg);
     }
 };

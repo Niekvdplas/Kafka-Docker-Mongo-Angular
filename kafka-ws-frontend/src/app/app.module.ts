@@ -7,12 +7,16 @@ import { InjectableRxStompConfig, RxStompService, rxStompServiceFactory } from '
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MessageStreamComponent } from './message-stream/message-stream.component';
+import { NavbarComponent } from './nav-bar/nav-bar.component'
+import { PDFComponent } from './pdfs/pdf.component';
 import { myRxStompConfig } from './rx-stomp.config';
 
 @NgModule({
    declarations: [
       AppComponent,
-      MessageStreamComponent
+      MessageStreamComponent,
+      NavbarComponent,
+      PDFComponent
    ],
    imports: [
       BrowserModule,

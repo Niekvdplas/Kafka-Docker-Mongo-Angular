@@ -8,14 +8,15 @@ import { catchError, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-message-stream',
-  templateUrl: './message-stream.component.html',
-  styleUrls: ['./message-stream.component.css']
+  templateUrl: './message-stream.component.html'
 })
 export class MessageStreamComponent implements OnInit, OnDestroy {
 
   myForm: FormGroup;
 
+  uploadInfo: string;
   messages: string[];
+  files : File[]
 
   private destroy$ = new Subject();
 
@@ -23,22 +24,10 @@ export class MessageStreamComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private rxStompService: RxStompService) {
 
-    this.myForm = frmBuilder.group(
-      { nMessage: '10' }
-    );
   }
 
   ngOnInit(): void {
     this.messages = [];
-
-    this.rxStompService.watch('/topic/messages')
-      .pipe(
-        takeUntil(this.destroy$)
-      ).subscribe((message: Message) => {
-        console.log('Received from websocket: ' + message.body);
-        this.messages.push(message.body);
-        this.messages = this.messages.slice(-5);
-      });
   }
 
   ngOnDestroy(): void {
@@ -46,17 +35,28 @@ export class MessageStreamComponent implements OnInit, OnDestroy {
     this.destroy$.unsubscribe();
   }
 
-  submit(): void {
-    const nMessage = this.myForm.controls.nMessage.value;
-
-    this.http.get(`/api/kafka/sample/${nMessage}`, { observe: 'response' })
+  uploadFiles = () => {
+    const formData: FormData = new FormData()
+    this.files.forEach((file) => { formData.append('files[]', file);});
+    this.http.post(`/api/kafka/upload`, formData, { observe: 'response' })
       .pipe(
         catchError(this.handleError.bind(this)),
         takeUntil(this.destroy$)
       ).subscribe((resp: HttpResponse<any>) => {
-
+        this.files = [];
+        this.uploadInfo = "";
       });
   }
+
+  handleUpload = (e) => {
+    this.files = Array.from(e.target.files) || []
+    if (this.files.length === 1){
+      this.uploadInfo = this.files[0].name
+    } else {
+      this.uploadInfo = `${this.files.length} files selected`
+    }
+  }
+
 
   private handleError(error: HttpErrorResponse): Observable<any> {
     return of(null);

@@ -1,0 +1,59 @@
+<main class="profile-page overflow-hidden scroll">
+    <section class="relative block" style="height: 300px;">
+        <div class="absolute top-0 w-full h-full bg-center bg-cover"
+            style='background-image: url("https://images.unsplash.com/photo-1499336315816-097655dcfbda?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=2710&amp;q=80");'>
+            <span id="blackOverlay" class="w-full h-full absolute opacity-50 bg-black"></span>
+        </div>
+        <div class="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden"
+            style="height: 70px;">
+            <svg class="absolute bottom-0 overflow-hidden" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"
+                version="1.1" viewBox="0 0 2560 100" x="0" y="0">
+                <polygon class="text-gray-300 fill-current" points="2560 0 2560 100 0 100"></polygon>
+            </svg>
+        </div>
+    </section>
+    <section class="relative py-16 bg-gray-300 ">
+        <div class="container mx-auto px-4">
+            <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg -mt-64">
+                <div class="px-6">
+                    <div class="text-center mt-12">
+                        <h3 class="text-4xl font-semibold leading-normal mb-2 text-gray-800">
+                            PDFs
+                        </h3>
+                    </div>
+                    <div class="grid grid-cols-3 justify-between max-w p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mb-4 text-center">
+                        <div><h2 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white grow-0">Bestandsnaam</h2></div>
+                        <button (click)="sort()">
+                            <span class="inline-flex">
+                            <p class="font-normal text-gray-700 dark:text-gray-400 mr-4">Datum</p>
+                            <ng-template [ngIf]="this.isSortedUp" [ngIfElse]="sortedDown">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 4.5h14.25M3 9h9.75M3 13.5h5.25m5.25-.75L17.25 9m0 0L21 12.75M17.25 9v12" />
+                                  </svg>                                  
+                            </ng-template>
+                            <ng-template #sortedDown>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 4.5h14.25M3 9h9.75M3 13.5h9.75m4.5-4.5v12m0 0l-3.75-3.75M17.25 21L21 17.25" />
+                                  </svg>                                  
+                              </ng-template>
+                            </span>
+                        </button>
+                        <div>
+                        </div>
+                    </div>
+                    <div *ngFor="let message of messages">
+                        <div class="grid grid-cols-3 justify-between max-w p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mb-4 text-center">
+                            <div><h2 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white grow-0">{{message.name}}</h2></div>
+                            <div><p class="font-normal text-gray-700 dark:text-gray-400">Geupload: {{message.created}}</p></div>
+                            <div><button type="button" (click)="open(message.content, message.format)" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                Open
+                                <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                            </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>

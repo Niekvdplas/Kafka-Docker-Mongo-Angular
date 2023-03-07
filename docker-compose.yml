@@ -1,0 +1,103 @@
+---
+version: '3'
+services:
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    networks:
+      - backend-network
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+    networks:
+      - backend-network
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.3.0
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - backend-network
+
+  broker:
+    image: confluentinc/cp-kafka:7.3.0
+    container_name: broker
+    restart: on-failure
+    depends_on:
+      - zookeeper
+    networks:
+      - backend-network
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,INTER_BROKER:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,INTER_BROKER://broker:29092
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTER_BROKER
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+
+  web:
+    build: ./kafka-ws-frontend
+    restart: on-failure
+    volumes:
+      - ./kafka-ws-frontend:/webapp
+    depends_on:
+      - kafka-stream
+    networks:
+      - ws-network
+      - nginx-network
+
+  nginx:
+    build: ./nginx
+    ports:
+      - 80:80
+    depends_on:
+      - web
+    networks:
+      - nginx-network
+
+  kafka-stream: #Should move the application properties from the yaml to here.
+    container_name: kafka-stream
+    build: ./kafka-ws-backend
+    depends_on:
+      - broker
+      - mongo
+    restart: on-failure
+    ports:
+      - 9090:9090
+    networks:
+      - ws-network
+      - backend-network
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui
+    container_name: kafka-ui
+    depends_on:
+      - broker
+    ports:
+      - "8080:8080"
+    restart: "no"
+    environment:
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=broker:29092
+      - KAFKA_CLUSTERS_0_ZOOKEEPER=zookeeper:2181
+    networks:
+      - backend-network
+
+
+networks:
+  ws-network:
+  nginx-network:
+  backend-network: 

@@ -1,13 +1,23 @@
 server:
-  port: 8080
+  port: 9090
 
 spring:
   kafka:
-    bootstrap-servers: "localhost:9092"
     producer:
+      bootstrap-servers: broker:29092
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
     consumer:
-      group-id: springBootGroup
+      bootstrap-servers: broker:29092
+      group-id: group-1
+      auto-offset-reset: earliest
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
          spring.json.trusted.packages: '*'
+  data:
+    mongodb:
+      host: springboot-kafka-to-angular-websocket-mongo-1
+      port: 27017
+      database: documents
+      username: root
+      password: example
+      authentication-database: admin

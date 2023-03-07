@@ -1,16 +1,78 @@
-<form [formGroup]="myForm" (ngSubmit)="submit()">
-
-  Produce nº messages: <input type="number" id="numberInput" formControlName="nMessage">
-  <button type = "submit">Start Kafka Sample Message Producer</button>
-
-</form>
-
-<BR />
-
-<div>
-
-  <p *ngIf="messages.length == 0">Empty here. Produce some messages.</p>
-
-  <p *ngFor="let msg of messages">{{ msg }}</p>
-
-</div>
+<main class="profile-page overflow-hidden scroll">
+  <section class="relative block" style="height: 300px;">
+    <div
+      class="absolute top-0 w-full h-full bg-center bg-cover"
+      style='background-image: url("https://images.unsplash.com/photo-1499336315816-097655dcfbda?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=2710&amp;q=80");'
+    >
+      <span
+        id="blackOverlay"
+        class="w-full h-full absolute opacity-50 bg-black"
+      ></span>
+    </div>
+    <div
+      class="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden"
+      style="height: 70px;"
+    >
+      <svg
+        class="absolute bottom-0 overflow-hidden"
+        xmlns="http://www.w3.org/2000/svg"
+        preserveAspectRatio="none"
+        version="1.1"
+        viewBox="0 0 2560 100"
+        x="0"
+        y="0"
+      >
+        <polygon
+          class="text-gray-300 fill-current"
+          points="2560 0 2560 100 0 100"
+        ></polygon>
+      </svg>
+    </div>
+  </section>
+  <section class="relative py-16 bg-gray-300">
+    <div class="container mx-auto px-4">
+      <div
+        class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg -mt-64"
+      >
+        <div class="px-6">
+        
+          <div class="text-center mt-12">
+            <h3
+              class="text-4xl font-semibold leading-normal mb-2 text-gray-800"
+            >
+              Upload files
+            </h3>
+            <div
+              class="text-sm leading-normal mt-0 mb-2 text-gray-500 font-bold uppercase"
+            >
+              <i
+                class="fas fa-map-marker-alt mr-2 text-lg text-gray-500"
+              ></i>
+              PDF, DOC, PPT, ...
+            </div>
+            <div class="flex items-center justify-center w-64 mx-auto">
+              <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                  <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                      <svg aria-hidden="true" class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                      <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                      <p class="text-sm text-gray-500/70">{{uploadInfo}}</p>
+                  </div>
+                  <input id="dropzone-file" type="file" class="hidden" (change)="handleUpload($event)" multiple/>
+              </label>
+            </div>
+            <button class="rounded-full bg-green-600/70 w-64 mx-auto flex items-center justify-center mt-4 text-white font-bold py-2 text-xl" (click)="uploadFiles()">Upload</button> 
+          </div>
+          <div class="mt-10 py-10 border-t border-gray-300 text-center">
+            <div class="flex flex-wrap justify-center">
+              <div class="w-full lg:w-9/12 px-4">
+                <p class="mb-4 text-lg leading-relaxed text-gray-800">
+                  In this demo, I will showcase the integration of Kafka and file upload using event streaming. Kafka is a distributed event streaming platform that allows you to publish and subscribe to streams of records. Event streaming allows you to capture data changes in real-time and process them immediately. In this demo, a file will be uploaded to a server, and the server will publish an event to Kafka, indicating that the file has been uploaded. This event will be received by a consumer application subscribed to the Kafka topic, and it can be used to trigger further actions, such as processing the file or notifying relevant parties. The combination of Kafka and event streaming provides a powerful toolset for building real-time data processing pipelines and applications.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>

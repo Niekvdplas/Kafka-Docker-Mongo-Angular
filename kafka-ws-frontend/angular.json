@@ -27,10 +27,9 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.css"
             ],
-            "scripts": [],
-            "es5BrowserSupport": true
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -45,7 +44,7 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
+              "aot": false,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -136,5 +135,8 @@
       }
     }
   },
-  "defaultProject": "kafka-ws-frontend"
+  "defaultProject": "kafka-ws-frontend",
+  "cli": {
+    "analytics": false
+  }
 }

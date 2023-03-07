@@ -12,10 +12,10 @@
 		<!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>kafka-ws-backend</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
-	<name>kafka-ws-backend</name>
-	<description>Kafka to Websocket Demo</description>
+	<artifactId>docker-kafka-stream</artifactId>
+	<version>1.0.0</version>
+	<name>docker-kafka-stream</name>
+	<description>Kafka with websocket in a Docker container</description>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -26,6 +26,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+
+		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+        </dependency>
 
 		<dependency>
 			<groupId>org.springframework.kafka</groupId>
